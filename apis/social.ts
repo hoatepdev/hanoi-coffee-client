@@ -1,4 +1,4 @@
-import { mainAPI } from "@/libs/axios";
+import { mainAPI } from "@/lib/axios";
 
 export async function loginGoogle(options?: { signal?: AbortSignal }) {
   const response = await mainAPI.get<any>("login/google", {
