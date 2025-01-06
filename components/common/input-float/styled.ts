@@ -35,9 +35,9 @@ const Main = styled.div`
   }
 
   .message-error {
-    top: 0;
     color: red;
     font-size: 12px;
+    text-align: left;
   }
 `;
 export default Main;

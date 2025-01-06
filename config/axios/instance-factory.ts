@@ -9,7 +9,7 @@ type ServiceType = "main" | "auth" | "media";
 
 export const createAxiosInstance = (
   service: ServiceType = "main",
-  customConfig: RequestConfig = {}
+  customConfig: RequestConfig = {},
 ): AxiosInstance => {
   //   const env = getCurrentEnvironment();
 
@@ -20,18 +20,20 @@ export const createAxiosInstance = (
     headers: {
       "Content-Type": CONTENT_TYPE.JSON,
       Accept: CONTENT_TYPE.JSON,
+      "Access-Control-Allow-Origin": "*", // Add CORS header
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS", // Add allowed methods
     },
     ...customConfig,
   });
 
   instance.interceptors.request.use(
     requestInterceptor.onFulfilled,
-    requestInterceptor.onRejected
+    requestInterceptor.onRejected,
   );
 
   instance.interceptors.response.use(
     responseInterceptor.onFulfilled,
-    responseInterceptor.onRejected
+    responseInterceptor.onRejected,
   );
 
   return instance;

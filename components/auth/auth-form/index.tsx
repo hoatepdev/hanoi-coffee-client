@@ -1,16 +1,13 @@
 "use client";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import InputFloat from "@/components/common/input-float";
 import Main, { FacebookIcon } from "./styled";
 import { FcGoogle } from "react-icons/fc";
-
-interface IFormInput {
-  mail: string;
-  password: string;
-}
+import { useLoginCredentials } from "@/services/login";
+import { useQueryClient } from "@tanstack/react-query";
+import { ILoginRequest } from "@/types/login";
 
 const AuthForm = () => {
   const [isSignUpMode, setIsSignUpMode] = useState(false);
@@ -18,11 +15,29 @@ const AuthForm = () => {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<IFormInput>();
+  } = useForm<ILoginRequest>();
 
-  console.log("⭐ errors", errors);
+  const queryClient = useQueryClient();
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+  // Initialize mutation
+  const mutation = useLoginCredentials({
+    mutationOptions: {
+      onSuccess: (response) => {
+        console.log("⭐ response", response);
+        queryClient.invalidateQueries({ queryKey: ["loginCredentials"] });
+      },
+    },
+  });
+
+  const onSubmit: SubmitHandler<ILoginRequest> = (data) => {
+    console.log("⭐ data", data);
+
+    mutation.mutate(data);
+  };
+
+  const handleLoginSocial = (platform: string) => () => {
+    console.log("⭐ platform", platform);
+  };
 
   return (
     <Main>
@@ -34,26 +49,26 @@ const AuthForm = () => {
               <InputFloat
                 type="text"
                 placeholder=" "
-                {...register("mail", { required: "Email Address is required" })}
-                className={errors.mail ? "input-error" : ""}
+                className={errors.email ? "input-error" : ""}
                 label="Email"
-                message={errors.mail?.message}
+                message={errors.email?.message}
+                register={register("email", {
+                  required: "Email Address is required",
+                })}
               />
               <InputFloat.Password
                 placeholder=" "
-                {...register("password", {
+                register={register("password", {
                   required: "Password is required",
                 })}
                 className={errors.password ? "input-error" : ""}
                 label="Password"
                 message={errors.password?.message}
               />
-
               <Button type="submit">Login</Button>
-
               <p className="social-text">Or Sign in with social platforms</p>
               <div className="social-media">
-                <Button variant="outline">
+                <Button variant="outline" onClick={handleLoginSocial("google")}>
                   <FcGoogle />
                 </Button>
                 <Button variant="outline">
