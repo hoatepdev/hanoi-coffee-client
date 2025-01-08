@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/styles/globals.css";
-import { SessionProvider } from "next-auth/react";
+// import { SessionProvider } from "next-auth/react";
 import ReactQueryProviders from "@/providers/react-query";
 import ThemeProvider from "@/providers/theme";
 import LayoutProvider from "@/providers/layout";
+import DeviceContext from "@/providers/device-context";
 
 const geistSans = localFont({
   src: "../public/fonts/GeistVF.woff",
@@ -38,9 +39,11 @@ export default function RootLayout({
       >
         <ReactQueryProviders>
           <ThemeProvider>
-            <SessionProvider>
+            <DeviceContext>
+              {/* <SessionProvider> */}
               <LayoutProvider>{children}</LayoutProvider>
-            </SessionProvider>
+              {/* </SessionProvider> */}
+            </DeviceContext>
           </ThemeProvider>
         </ReactQueryProviders>
       </body>
