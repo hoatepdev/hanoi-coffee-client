@@ -5,7 +5,7 @@ const Main = styled.div`
   margin: 20px 0;
   label {
     position: absolute;
-    top: 30%;
+    top: 40%;
     left: 5px;
     transform: translateY(-35%);
     font-size: 14px;

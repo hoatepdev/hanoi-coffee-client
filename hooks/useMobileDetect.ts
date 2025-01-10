@@ -4,10 +4,10 @@ import { getLocalStorage, setLocalStorage } from "@/utils/localstorage";
 import { useState, useEffect } from "react";
 
 export const useMobileDetect = () => {
-  const isMobileLocalStorage = getLocalStorage("isMobile", false);
-
   const [isMobile, setIsMobile] = useState(false);
   const [isFirstRender, setIsFirstRender] = useState(true);
+
+  const isMobileLocalStorage = getLocalStorage("isMobile", false);
 
   useEffect(() => {
     if (isFirstRender) {

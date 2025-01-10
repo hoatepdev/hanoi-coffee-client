@@ -1,6 +1,17 @@
-export interface APIResponse<T = any> {
-  data: T;
-  message?: string;
+import { ToastType } from "./toast";
+
+export interface APIResponse<T> {
+  code: number;
+  data: T | null;
+  message: string | string[];
+  type: ToastType | null;
+}
+
+export interface ServerErrorResponse {
+  code: number;
+  traceid: string;
+  context: string;
+  message: string | string[];
   status: number;
 }
 
@@ -11,15 +22,9 @@ export interface PaginatedResponse<T> extends APIResponse<T> {
   hasMore: boolean;
 }
 
-export interface ErrorResponse {
-  message: string;
-  code: string;
-  status: number;
-  details?: Record<string, any>;
-}
-
 export interface RequestConfig
   extends Omit<Partial<import("axios").AxiosRequestConfig>, "headers"> {
   headers?: Record<string, string>;
   apiVersion?: number;
+  prefix?: string;
 }

@@ -1,3 +1,5 @@
+const isBrowser = typeof window !== "undefined";
+
 // localStorage utility functions with type safety and error handling
 
 /**
@@ -21,6 +23,8 @@ export const setLocalStorage = <T>(key: string, value: T): void => {
  * @returns The stored value or default value
  */
 export const getLocalStorage = <T>(key: string, defaultValue: T): T => {
+  if (!isBrowser) return defaultValue;
+
   try {
     const item = localStorage.getItem(key);
     if (item === null) {

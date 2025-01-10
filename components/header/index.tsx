@@ -32,7 +32,7 @@ const Header = () => {
           </div>
         </div>
         <div className="f-bold text-[#bb623e]">Header component</div>
-        <Link href="/ssr">SSR</Link>
+        <Link href="/onboard">login</Link>
       </div>
     </header>
   );

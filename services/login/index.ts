@@ -1,6 +1,7 @@
 "use client";
 import { loginCredentials } from "@/apis/login";
-import { ILoginRequest } from "@/types/login";
+import { APIResponse } from "@/types/api";
+import { ILoginRequest, ILoginResponse } from "@/types/login";
 import {
   useMutation,
   UseMutationOptions,
@@ -10,7 +11,7 @@ import {
 
 interface ILoginCredentialsProps {
   mutationOptions?: UseMutationOptions<
-    { data: ILoginRequest },
+    APIResponse<ILoginResponse | null>,
     Error,
     ILoginRequest,
     unknown
@@ -21,7 +22,7 @@ export function useLoginCredentials(props: ILoginCredentialsProps) {
   return useMutation({
     ...props.mutationOptions,
     mutationKey: ["loginCredentials"],
-    mutationFn: (data: ILoginRequest) => loginCredentials({ body: data }),
+    mutationFn: (body: ILoginRequest) => loginCredentials({ body }),
   });
 }
 

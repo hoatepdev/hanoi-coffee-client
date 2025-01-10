@@ -23,7 +23,8 @@ const AuthForm = () => {
   const mutation = useLoginCredentials({
     mutationOptions: {
       onSuccess: (response) => {
-        console.log("⭐ response", response);
+        console.log("⭐ mutation", response);
+
         queryClient.invalidateQueries({ queryKey: ["loginCredentials"] });
       },
     },

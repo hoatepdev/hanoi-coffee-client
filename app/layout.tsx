@@ -6,6 +6,7 @@ import ReactQueryProviders from "@/providers/react-query";
 import ThemeProvider from "@/providers/theme";
 import LayoutProvider from "@/providers/layout";
 import DeviceContext from "@/providers/device-context";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = localFont({
   src: "../public/fonts/GeistVF.woff",
@@ -41,7 +42,11 @@ export default function RootLayout({
           <ThemeProvider>
             <DeviceContext>
               {/* <SessionProvider> */}
-              <LayoutProvider>{children}</LayoutProvider>
+              <LayoutProvider>
+                {children}
+
+                <Toaster />
+              </LayoutProvider>
               {/* </SessionProvider> */}
             </DeviceContext>
           </ThemeProvider>

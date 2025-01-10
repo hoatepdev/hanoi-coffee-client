@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 // import { getCurrentEnvironment } from './environment';
 import { requestInterceptor, responseInterceptor } from "./interceptors";
-import { CONTENT_TYPE } from "./constants";
+import { CONTENT_TYPE } from "../../constants/axios";
 import { RequestConfig } from "@/types/api";
 import environments from "./environment";
 
@@ -9,9 +9,11 @@ type ServiceType = "main" | "auth" | "media";
 
 export const createAxiosInstance = (
   service: ServiceType = "main",
-  customConfig: RequestConfig = {},
+  customConfig?: RequestConfig,
 ): AxiosInstance => {
   //   const env = getCurrentEnvironment();
+
+  const { headers = {}, ...config } = customConfig || {};
 
   const instance = axios.create({
     baseURL: environments[service],
@@ -22,8 +24,9 @@ export const createAxiosInstance = (
       Accept: CONTENT_TYPE.JSON,
       "Access-Control-Allow-Origin": "*", // Add CORS header
       "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS", // Add allowed methods
+      ...headers,
     },
-    ...customConfig,
+    ...config,
   });
 
   instance.interceptors.request.use(

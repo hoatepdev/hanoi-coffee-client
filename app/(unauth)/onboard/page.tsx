@@ -3,9 +3,8 @@
 import { useRef } from "react";
 import AuthWrap from "@/components/auth/auth-wrap";
 import { TYPE_AUTH } from "@/constants/auth";
-// import { UserService } from "@/services/user";
 
-export default function LogIn() {
+export default function Onboard() {
   const ref = useRef<{ open: () => void; close: () => void }>(null);
 
   return (

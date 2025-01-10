@@ -4,23 +4,23 @@ import axios, {
   AxiosResponse,
 } from "axios";
 // import { refreshAccessToken } from '@/services/auth';
-import { HTTP_STATUS } from "./constants";
-import { APIResponse, ErrorResponse, RequestConfig } from "@/types/api";
+import { HTTP_STATUS } from "@/constants/axios";
+import { APIResponse, RequestConfig } from "@/types/api";
 
 export const requestInterceptor = {
   onFulfilled: (
-    config: InternalAxiosRequestConfig & RequestConfig
+    config: InternalAxiosRequestConfig & RequestConfig,
   ): InternalAxiosRequestConfig => {
     const token = localStorage.getItem("authToken");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    if (config.apiVersion) {
-      config.url = `/v${config.apiVersion}${config.url}`;
-      delete config.apiVersion;
-    }
+    config.url = `${config.prefix || ""}${config.apiVersion ? `/v${config.apiVersion}` : ""}${config.url}`;
+    delete config.prefix;
+    delete config.apiVersion;
 
+    config.headers["X-Request-ID"] = crypto.randomUUID();
     config.headers["X-Request-ID"] = crypto.randomUUID();
 
     return config;
@@ -29,10 +29,10 @@ export const requestInterceptor = {
 };
 
 export const responseInterceptor = {
-  onFulfilled: <T>(response: AxiosResponse<T>): T => {
-    return response.data;
+  onFulfilled: <T>(response: AxiosResponse<T>): AxiosResponse<T> => {
+    return response;
   },
-  onRejected: async (error: AxiosError<ErrorResponse>): Promise<never> => {
+  onRejected: async (error: AxiosError<APIResponse<null>>): Promise<never> => {
     const originalRequest = error.config as InternalAxiosRequestConfig & {
       _retry?: boolean;
     };
