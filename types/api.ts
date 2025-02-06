@@ -1,10 +1,18 @@
 import { ToastType } from "./toast";
 
-export interface APIResponse<T> {
+export interface APIResponsePre<T> {
   code: number;
-  data: T | null;
+  data: T;
+  message: string;
+  status: string;
+}
+
+export interface APIResponsePost<T> {
+  code: number;
+  data: T;
   message: string | string[];
-  type: ToastType | null;
+  type: ToastType;
+  options?: RequestOptions;
 }
 
 export interface ServerErrorResponse {
@@ -15,7 +23,7 @@ export interface ServerErrorResponse {
   status: number;
 }
 
-export interface PaginatedResponse<T> extends APIResponse<T> {
+export interface PaginatedResponse<T> extends APIResponsePost<T> {
   total: number;
   page: number;
   limit: number;
@@ -27,4 +35,9 @@ export interface RequestConfig
   headers?: Record<string, string>;
   apiVersion?: number;
   prefix?: string;
+}
+
+export interface RequestOptions {
+  signal?: AbortSignal;
+  ignoreToast?: boolean;
 }

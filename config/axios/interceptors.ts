@@ -5,15 +5,19 @@ import axios, {
 } from "axios";
 // import { refreshAccessToken } from '@/services/auth';
 import { HTTP_STATUS } from "@/constants/axios";
-import { APIResponse, RequestConfig } from "@/types/api";
+import { APIResponsePost, RequestConfig } from "@/types/api";
+import { getServerCookie, getServerJSONCookie } from "@/utils/server-cookies";
+import { getClientCookie } from "@/utils/client-cookies";
 
 export const requestInterceptor = {
   onFulfilled: (
     config: InternalAxiosRequestConfig & RequestConfig,
   ): InternalAxiosRequestConfig => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const accessToken = getClientCookie("accessToken");
+    console.log("⭐ accessToken1", accessToken);
+
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
 
     config.url = `${config.prefix || ""}${config.apiVersion ? `/v${config.apiVersion}` : ""}${config.url}`;
@@ -32,7 +36,9 @@ export const responseInterceptor = {
   onFulfilled: <T>(response: AxiosResponse<T>): AxiosResponse<T> => {
     return response;
   },
-  onRejected: async (error: AxiosError<APIResponse<null>>): Promise<never> => {
+  onRejected: async (
+    error: AxiosError<APIResponsePost<null>>,
+  ): Promise<never> => {
     const originalRequest = error.config as InternalAxiosRequestConfig & {
       _retry?: boolean;
     };

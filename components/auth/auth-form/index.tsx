@@ -8,6 +8,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useLoginCredentials } from "@/services/login";
 import { useQueryClient } from "@tanstack/react-query";
 import { ILoginRequest } from "@/types/login";
+import { setClientCookie } from "@/utils/client-cookies";
 
 const AuthForm = () => {
   const [isSignUpMode, setIsSignUpMode] = useState(false);
@@ -24,15 +25,16 @@ const AuthForm = () => {
     mutationOptions: {
       onSuccess: (response) => {
         console.log("⭐ mutation", response);
-
+        if (response) {
+          setClientCookie("accessToken", response.accessToken);
+          setClientCookie("refreshToken", response.refreshToken);
+        }
         queryClient.invalidateQueries({ queryKey: ["loginCredentials"] });
       },
     },
   });
 
   const onSubmit: SubmitHandler<ILoginRequest> = (data) => {
-    console.log("⭐ data", data);
-
     mutation.mutate(data);
   };
 

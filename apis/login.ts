@@ -1,14 +1,21 @@
 import { mainAPI } from "@/lib/axios";
 import { ILoginRequest, ILoginResponse } from "@/types/login";
 import { clientMain } from ".";
+import { RequestOptions } from "@/types/api";
 
 export async function loginCredentials({
   body,
+  options,
 }: {
   body: ILoginRequest;
-  options?: { signal?: AbortSignal };
+  options?: RequestOptions;
 }) {
-  return clientMain.post<ILoginResponse, ILoginRequest>(`/login`, body);
+  const response = await clientMain.post<ILoginResponse, ILoginRequest>({
+    endpoint: `/login`,
+    body,
+    options,
+  });
+  return response.data;
 }
 
 export async function loginGoogle(options?: { signal?: AbortSignal }) {

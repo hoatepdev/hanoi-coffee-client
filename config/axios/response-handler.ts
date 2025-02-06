@@ -1,4 +1,4 @@
-import { APIResponse } from "@/types/api";
+import { APIResponsePost, RequestOptions } from "@/types/api";
 import { HTTP_STATUS } from "@/constants/axios";
 import { ToastType } from "@/types/toast";
 import { ToastKeys } from "@/constants/toast";
@@ -8,20 +8,23 @@ import { renderMessageToastTsx } from "@/utils/renderTsx";
 export class APIError {
   public readonly code: number;
   public readonly message: string | string[];
-  public readonly type: ToastType | null;
   public readonly data: null;
+  public readonly type: ToastType;
+  public readonly options?: RequestOptions;
   constructor({
     code = HTTP_STATUS.INTERNAL_SERVER_ERROR,
     message = "Internal Server Error",
     type = ToastKeys.ERROR,
     data = null,
-  }: Partial<APIResponse<null>>) {
+    options,
+  }: Partial<APIResponsePost<null>>) {
     this.code = code;
     this.data = data;
     this.message = message;
     this.type = type;
+    this.options = options;
 
-    if (this.type) {
+    if (this.type && !this.options?.ignoreToast) {
       toast.error(this.message, {
         description: renderMessageToastTsx(this.message),
       });
@@ -31,7 +34,7 @@ export class APIError {
     Object.setPrototypeOf(this, APIError.prototype);
   }
 
-  public toJSON(): APIResponse<null> {
+  public toJSON(): APIResponsePost<null> {
     return {
       code: this.code,
       data: null,
@@ -43,21 +46,24 @@ export class APIError {
 
 export class APISuccess<T> {
   public readonly code: number;
-  public readonly data: T | null;
+  public readonly data: T;
   public readonly message: string | string[];
-  public readonly type: ToastType | null;
+  public readonly type: ToastType;
+  public readonly options?: RequestOptions;
   constructor({
     code = HTTP_STATUS.OK,
-    data = null,
+    data = {} as T,
     message = "Success",
     type = ToastKeys.SUCCESS,
-  }: Partial<APIResponse<T>>) {
+    options,
+  }: Partial<APIResponsePost<T>>) {
     this.code = code;
     this.data = data;
     this.message = message;
     this.type = type;
+    this.options = options;
 
-    if (this.type) {
+    if (this.type && !this.options?.ignoreToast) {
       toast.success(this.message, {
         description: renderMessageToastTsx(this.message),
       });
@@ -67,7 +73,7 @@ export class APISuccess<T> {
     Object.setPrototypeOf(this, APISuccess.prototype);
   }
 
-  public toJSON(): APIResponse<T> {
+  public toJSON(): APIResponsePost<T> {
     return {
       code: this.code,
       data: this.data,
