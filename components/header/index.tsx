@@ -17,6 +17,9 @@ const Header = () => {
   return (
     <header className="fixed top-0 h-[60px] w-full bg-white">
       <div className="mx-auto my-0 flex h-full max-w-screen-xl items-center justify-between px-4">
+        <div className="from-cl-1 to-cl-5 bg-gradient-to-r bg-clip-text text-lg font-semibold text-transparent">
+          HanoiCoffee
+        </div>
         <div className="flex items-center gap-2">
           <Link
             href={{

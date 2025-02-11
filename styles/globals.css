@@ -66,6 +66,52 @@ body {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    /* custom */
+    --cl-1: #8770ff;
+    --cl-1-hv: #7d66f5;
+    --cl-2: #f89aff;
+    --cl-3: #e8e3ff;
+    --cl-4: #ffe5e5;
+    --cl-5: #ff7eda;
+    --cl-bg: #f8f4fe;
+    --cl-primary: #8770ff;
+    --cl-secondary: #fe9788;
+    --cl-bg-icon: #eae8fe;
+    --cl-bg-gray: #3a5068;
+    --color-primary: #ff7eda;
+    --color-primary-2: #fe9788;
+    --color-secondary: #fe9788;
+    --color-text-primary: #333;
+    --color-text-secondary: #898a8d;
+    --color-text-third: #2192ff;
+    --color-text-fourth: #47b5ff;
+    --color-bg: #fff;
+    --color-bg-primary: #f5f6fa;
+    --color-bg-icon: #e4e6eb;
+    --color-bg-hover: #fcfbdc;
+    --color-error: #e61414;
+    --color-shadow: #0f172a;
+    --color-line: #ddd;
+    --color-fur: #ffb141;
+    --color-fur-dark: #f5832c;
+    --color-spot: #f9584c;
+    --color-snout: #544258;
+    --color-collar: #3eab6c;
+    --duration: 0.7s;
+    --semi-duration: calc(var(--duration) / 2);
+    --easing: cubic-bezier(0.5, 0, 0.5, 1);
+    --stagger: calc(-1 * var(--semi-duration) / 2);
+    --progress-width: 0;
+    --buffered-width: 0;
+    --flame-gradient: linear-gradient(
+      45deg,
+      #ecf78c,
+      #fcdc73,
+      #ffb350,
+      #f14f0f
+    );
+    --flame-blur: 20px;
+    --to-mun: 0;
   }
 }
 

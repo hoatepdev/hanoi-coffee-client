@@ -1,0 +1,11 @@
+/* @import "tailwindcss"; */
+
+.from-cl-1 {
+  --tw-gradient-from: #8770ff var(--tw-gradient-from-position);
+  --tw-gradient-to: rgba(135, 112, 255, 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-cl-5 {
+  --tw-gradient-to: #ff7eda var(--tw-gradient-to-position);
+}

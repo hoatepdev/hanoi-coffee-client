@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/styles/globals.css";
+import "@/styles/custom-tailwindcss.css";
+
 // import { SessionProvider } from "next-auth/react";
 import ReactQueryProviders from "@/providers/react-query";
 import ThemeProvider from "@/providers/theme";
@@ -8,15 +10,11 @@ import LayoutProvider from "@/providers/layout";
 import DeviceContext from "@/providers/device-context";
 import { Toaster } from "@/components/ui/sonner";
 
-const geistSans = localFont({
-  src: "../public/fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const geistRem = localFont({
+  src: "../public/fonts/REM-VariableFont_wght.ttf",
 });
-const geistMono = localFont({
-  src: "../public/fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const geistRemItalic = localFont({
+  src: "../public/fonts/REM-Italic-VariableFont_wght.ttf",
 });
 
 export const metadata: Metadata = {
@@ -36,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistRem.className} ${geistRemItalic.className} font-sans`}
       >
         <ReactQueryProviders>
           <ThemeProvider>
@@ -44,7 +42,6 @@ export default function RootLayout({
               {/* <SessionProvider> */}
               <LayoutProvider>
                 {children}
-
                 <Toaster />
               </LayoutProvider>
               {/* </SessionProvider> */}
