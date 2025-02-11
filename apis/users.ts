@@ -1,8 +1,10 @@
 import { mainAPI } from "@/lib/axios";
 
-export type GetUsersFilters = {
-  limit: number;
-  skip: number;
+export type UserParam = {
+  username?: string;
+  email?: string;
+  role?: string;
+  status?: string;
 };
 
 const ENDPOINT = "/users";
@@ -16,11 +18,11 @@ export async function getAllUsers(options?: { signal?: AbortSignal }) {
 }
 
 export async function getUsers(
-  filters: GetUsersFilters,
+  params: UserParam,
   options?: { signal?: AbortSignal },
 ) {
   const response = await mainAPI.get<any>(ENDPOINT, {
-    params: filters,
+    params,
     signal: options?.signal,
   });
 

@@ -9,6 +9,7 @@ import { useLoginCredentials } from "@/services/login";
 import { useQueryClient } from "@tanstack/react-query";
 import { ILoginRequest } from "@/types/login";
 import { setClientCookie } from "@/utils/client-cookies";
+import { useUserStore } from "@/stores/useStore";
 
 const AuthForm = () => {
   const [isSignUpMode, setIsSignUpMode] = useState(false);
@@ -19,13 +20,13 @@ const AuthForm = () => {
   } = useForm<ILoginRequest>();
 
   const queryClient = useQueryClient();
-
+  const { setValue: setUser } = useUserStore();
   // Initialize mutation
   const mutation = useLoginCredentials({
     mutationOptions: {
       onSuccess: (response) => {
-        console.log("⭐ mutation", response);
         if (response) {
+          setUser(response.user);
           setClientCookie("accessToken", response.accessToken);
           setClientCookie("refreshToken", response.refreshToken);
         }

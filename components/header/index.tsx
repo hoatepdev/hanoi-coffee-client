@@ -1,14 +1,19 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import InputSearch from "./input-search";
 import { DeviceContext } from "@/providers/device-context";
+import { useUserStore } from "@/stores/useStore";
 
 const Header = () => {
   const deviceContext = useContext(DeviceContext);
-  console.log("⭐ layer context", deviceContext);
+  const { value: user, setValue } = useUserStore();
+  console.log("⭐ user", user);
 
+  // if (!isHydrated) {
+  //   return <div>Loading 123...</div>;
+  // }
   return (
     <header className="fixed top-0 h-[60px] w-full bg-white">
       <div className="mx-auto my-0 flex h-full max-w-screen-xl items-center justify-between px-4">
@@ -31,6 +36,7 @@ const Header = () => {
             <InputSearch />
           </div>
         </div>
+        <div className="f-bold text-[#bb623e]">{user.username}</div>
         <div className="f-bold text-[#bb623e]">Header component</div>
         <Link href="/onboard">login</Link>
       </div>
